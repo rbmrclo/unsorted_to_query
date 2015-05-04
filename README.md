@@ -30,7 +30,7 @@ Or install it yourself as:
 
 ## Usage
 
-This patch is using the `Refinements`. To learn more about it, click [here](http://ruby-doc.org/core-2.1.1/doc/syntax/refinements_rdoc.html)
+This patch is using `Refinements`. To learn more about it, click [here](http://ruby-doc.org/core-2.1.1/doc/syntax/refinements_rdoc.html)
 
 NOTE: From ruby-doc.org
 > You may only activate refinements at top-level, not inside any class, module or method scope. You may activate refinements in a string passed to Kernel#eval that is evaluated at top-level. Refinements are active until the end of the file or the end of the eval string, respectively.
