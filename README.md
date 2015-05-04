@@ -1,8 +1,16 @@
 # UnsortedToQuery
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/unsorted_to_query`. To experiment with that code, run `bin/console` for an interactive prompt.
+A Rails patch for ActiveSupport::CoreExtensions::Hash#to_query which removes the call for `sort!`
 
-TODO: Delete this and the text above, and describe your gem
+- Issue: https://github.com/rails/rails/issues/10529
+- Code: [lib/active_support/core_ext/object/to_query](https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/object/to_query.rb#L75)
+
+Requires: >= Ruby 2.0.0
+
+## Why I did this
+
+I find this feature important on a lot of projects that i've been working since I've been using `.to_query` a lot so I decided to put it on a gem.
+
 
 ## Installation
 
@@ -22,13 +30,30 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+This patch is using the `Refinements`. To learn more about it, click [here](http://ruby-doc.org/core-2.1.1/doc/syntax/refinements_rdoc.html)
 
-## Development
+NOTE: From ruby-doc.org
+> You may only activate refinements at top-level, not inside any class, module or method scope. You may activate refinements in a string passed to Kernel#eval that is evaluated at top-level. Refinements are active until the end of the file or the end of the eval string, respectively.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+```ruby
+class Foo
+  using UnsortedToQuery
+  
+  def self.test
+    { foo: 'bar', buzz: 'fizz' }.to_query
+  end
+end
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Foo.test
+#=> "foo=bar&buzz=fizz" 
+```
+
+
+## Test
+
+```ruby
+$ ruby test/test_unsorted_to_query.rb
+```
 
 ## Contributing
 
